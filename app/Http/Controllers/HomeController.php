@@ -8,7 +8,7 @@ class HomeController extends Controller
 {
     public function Login()
     {
-        return view('login');
+        return view('FormUser.login');
     }
     public function home()  
     {
@@ -16,7 +16,7 @@ class HomeController extends Controller
     }
     public function register()  
     {
-        return view('register');
+        return view('FormUser.register');
     }
     public function logout()  
     {

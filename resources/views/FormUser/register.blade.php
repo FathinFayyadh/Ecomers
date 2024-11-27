@@ -9,21 +9,16 @@
                     <div class="col-lg-5 d-none d-lg-block ">
                         <img src="{{ asset('assets/img/BgRegister.jpg') }}" alt="" class="bg-register-image w-100 m">
                     </div>
-                    
                     <div class="col-lg-7">
                         <div class="p-5">
                             <div class="text-center">
                                 <h1 class="h4 text-gray-900 mb-4">Create an Account!</h1>
                             </div>
                             <form class="user">
-                                <div class="form-group row">
-                                    <div class="col-sm-6 mb-3 mb-sm-0">
+                                <div class="form-group">
+                                    <div class=" mb-3 mb-sm-0">
                                         <input type="text" class="form-control form-control-user" id="exampleFirstName"
                                             placeholder="First Name">
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <input type="text" class="form-control form-control-user" id="exampleLastName"
-                                            placeholder="Last Name">
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -48,7 +43,7 @@
                             <hr>
 
                             <div class="text-center">
-                                <a class="small" href="{{rote('login')}}">Already have an account? Login!</a>
+                                <a class="small" href="{{route('login.create')}}">Already have an account? Login!</a>
                             </div>
                         </div>
                     </div>

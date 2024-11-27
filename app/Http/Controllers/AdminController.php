@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
@@ -12,7 +13,7 @@ class AdminController extends Controller
     public function Dashboard()
     {
 
-        return view('dashboard');
+        return view('Admin.dashboard');
     }
     public function CreateProduct(){
 
@@ -25,30 +26,29 @@ class AdminController extends Controller
     public function manageproduct(){
         return view('admin.manageProduct');
     }
-    public function getproduct(Request $request){
-        
-    }
-    public function adminstrore (Request $request){
+    public function LoginAdminStore (Request $request){
         $validator = Validator::make($request->all(), [
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users,email',
-            'password' => 'required|string|min:8|confirmed',
-            'role' => 'required|in:,user',
+            'email'=> 'required|email',
+            'password'=> 'required',
         ]);
 
         if ($validator->fails()) {
-            return redirect('admin/login-admin')
-                        ->withErrors($validator)
-                        ->withInput();
-        }  
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'role' => $request->role,
+            return redirect()->route('login-admin')
+                ->withErrors($validator)
+                ->withInput();
+        }
 
-        ]);
-
+        if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
+            $request->session()->regenerate();
+            return redirect()->route('Dashboard');
+        }
+        return back()->withErrors([
+            'email' => 'Your credentials are wrong',
+            'password' => 'Your credentials are wrong',
+        ])->withInput();
+    }
+    public function getproduct(Request $request){
+        
     }
     
 

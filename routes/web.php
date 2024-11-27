@@ -20,5 +20,6 @@ Route::get('/manageproduct',[AdminController::class,'manageproduct'])->name('man
 
 // Post
 Route::post('/login', [HomeController::class, 'login'])->name('login.store');
+Route::post('/login-admin', [AdminController::class, 'LoginAdminStore'])->name('login-admin.store');
 Route::post('/register', [HomeController::class, 'register'])->name('register.store');
 Route::post('/create-product', [AdminController::class, 'adminstrore'])->name('adminstrore');    

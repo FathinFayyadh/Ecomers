@@ -110,13 +110,8 @@
                                 </form>
                             </div>
                         </li>                        
-                        <!-- Nav Item - Alerts -->
-                       
-
-                        
-
+                        <!-- Nav Item - Alerts -->                         
                         <div class="topbar-divider d-none d-sm-block"></div>
-
                         <!-- Nav Item - User Information -->
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
@@ -151,7 +146,6 @@
 
                 </nav>
                 <!-- End of Topbar -->
-
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
 
