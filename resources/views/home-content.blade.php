@@ -33,10 +33,17 @@
                             </ul>
                         </li>
                     </ul>
-                    <form class="d-flex">
-                        <a class="btn btn-outline-dark mx-2" href="{{route('login.create')}}" >Login</a>
-                        <a class="btn btn-outline-dark" type="submit">Register</a>
-                    </form>
+                    @auth
+                        @if (Auth::user()->roles_id == 2)
+                            <h1>{{Auth::user()->name}}</h1>
+                        @else
+                        <form class="d-flex">
+                            <a class="btn btn-outline-dark mx-2" href="{{route('login.create')}}" >Login</a>
+                            <a class="btn btn-outline-dark" type="submit">Register</a>
+                        </form>
+                        @endif
+                    @endauth
+                   
                 </div>
             </div>
         </nav>
