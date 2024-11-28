@@ -20,7 +20,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'role',
+        'roles_id',
         'gender',
         'image',
     ];
@@ -51,6 +51,6 @@ class User extends Authenticatable
         return $this->hasMany(Product::class, 'user_id', 'id');
     }
     public function roles (){
-        return $this->belongsTo(Roles::class, 'role', 'id');
+        return $this->belongsTo(Roles::class, 'roles_id', 'id');
     }
 }

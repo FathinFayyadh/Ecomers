@@ -19,7 +19,6 @@ Route::get('/create-product',[AdminController::class,'createproduct'])->name('cr
 Route::get('/manageproduct',[AdminController::class,'manageproduct'])->name('manageproduct');
 
 // Post
-Route::post('/login', [HomeController::class, 'login'])->name('login.store');
-Route::post('/login-admin', [AdminController::class, 'LoginAdminStore'])->name('login-admin.store');
-Route::post('/register', [HomeController::class, 'register'])->name('register.store');
+Route::post('/login', [FormController::class, 'LoginStore'])->name('login.store');
+Route::post('/register', [FormController::class, 'RegisterStore'])->name('register.store');
 Route::post('/create-product', [AdminController::class, 'adminstrore'])->name('adminstrore');    

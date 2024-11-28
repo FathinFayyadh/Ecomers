@@ -9,7 +9,7 @@
                     <h4 class="text-center mb-0">Welcome Admin</h4>
                 </div>
                 <div class="card-body">
-                    <form action="{{ route('login-admin.store') }}" method="POST">
+                    <form action="{{ route('login.store') }}" method="POST">
                         @csrf
                         <!-- Email -->
                         <div class="mb-3">
