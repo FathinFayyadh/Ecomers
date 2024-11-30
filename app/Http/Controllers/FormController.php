@@ -18,7 +18,6 @@ class FormController extends Controller
 
     public function LoginStore(Request $request)
     {
-        // Validasi input
         $validator = Validator::make($request->all(), [
             'email' => 'required|email',
             'password' => 'required',
@@ -30,14 +29,13 @@ class FormController extends Controller
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
             $request->session()->regenerate();
 
-            $user = Auth::user(); 
+            $user = Auth::user();
             if ($user->roles_id == 1) {
                 return redirect()->route('Dashboard')->with('success', 'Welcome Admin!');
-            } elseif ($user->roles_id == 2) {                
+            } elseif ($user->roles_id == 2) {
                 return redirect()->route('home')->with('success', 'Welcome User!');
             }
         }
-        // Jika gagal login (kredensial salah)
         return back()->withErrors([
             'email' => 'Your credentials are wrong',
             'password' => 'Your credentials are wrong',
@@ -46,7 +44,7 @@ class FormController extends Controller
 
     public function RegisterStore(Request $request)
     {
-        // Validasi input
+
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
             'email' => 'required|email|max:255|unique:users',
@@ -59,15 +57,13 @@ class FormController extends Controller
                 ->withInput();
         }
 
-        // Simpan data pengguna baru
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => bcrypt($request->password),
-            'roles_id' => 2, // Default role untuk pengguna biasa
+            'roles_id' => 2,
         ]);
 
-        // Jika berhasil, login pengguna dan arahkan berdasarkan role
         if ($user) {
             Auth::login($user);
             $request->session()->regenerate();
@@ -78,8 +74,17 @@ class FormController extends Controller
                 return redirect()->route('login.create')->with('success', 'Registration successful!');
             }
         }
-
-        // Jika gagal, kembalikan ke halaman register dengan pesan error
-        return redirect()->route('register.create')->with('error', 'Registration failed');
+    }
+    public function logout()
+    {
+        if (Auth::check()) {
+            $role = Auth::user()->roles_id; 
+            Auth::logout(); 
+            if ($role == 1) {
+                return redirect()->route('login-admin')->with('success', 'You have been logged out successfully.');
+            } elseif ($role == 2) {
+                return redirect()->route('home')->with('success', 'You have been logged out successfully.');
+            }
+        }
     }
 }
