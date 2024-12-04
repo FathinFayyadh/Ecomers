@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\product;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -18,9 +19,10 @@ class HomeController extends Controller
     {
         return view('FormUser.register');
     }
-    public function logout()  
-    {
-        // return view('login');
+    
+    public function content(){
+        $products = product::all();
+        return view('content', compact('products'));
     }
     
     

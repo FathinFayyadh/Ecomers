@@ -15,16 +15,34 @@ class UserMiddleware
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
     public function handle(Request $request, Closure $next, string $role): Response
-    {  // Periksa apakah pengguna sudah login
+    {
         if (!Auth::check()) {
-            return redirect('/login')->with('error', 'You must be logged in to access this page.');
+            return $this->redirectBasedOnRole ($role);
         }
 
-        // Periksa apakah pengguna memiliki peran yang sesuai
         $user = Auth::user();
-        if ($user->role !== $role) {
-            return redirect('/')->with('error', 'Access Denied: You do not have permission to access this page.');
+
+        $roleMapping = [
+            'admin' => 1,
+            'user' => 2,
+        ];
+        if (!isset($roleMapping[$role]) || $user->roles_id !== $roleMapping[$role]) {
+            return redirect()->route('login-admin')->with('error', 'Access Denied: You do not have permission to access this page.');
         }
+
         return $next($request);
     }
+    private function redirectBasedOnRole(string $role): Response
+    {
+        if ($role === 'admin') {
+            return redirect('/login-admin')->with('error', 'Please log in as Admin to access this page.');
+        }
+
+        if ($role === 'user') {
+            return redirect('/login')->with('error', 'Please log in to access this page.');
+        }
+
+        return redirect('/')->with('error', 'Role not recognized.');
+    }
+
 }

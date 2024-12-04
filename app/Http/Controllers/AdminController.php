@@ -16,51 +16,51 @@ class AdminController extends Controller
 
         return view('Admin.dashboard');
     }
-    public function CreateProduct(){
+    public function CreateProduct()
+    {
 
         return view('admin.FormAdmin.createProduct');
-      }
-    public function loginAdmin(){
+    }
+    public function loginAdmin()
+    {
         return view('admin.FormAdmin.login-Admin');
     }
-    
-    
-    public function manageproduct(){
-        $products = product::all();   
+
+
+    public function manageproduct()
+    {
+        $products = product::all();
         return view('admin.manageProduct', compact('products'));
     }
     public function getproduct(Request $request)
-{
-    $validator = Validator::make($request->all(), [
-        'image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
-        'nameproduct' => 'required|string',
-        'price' => 'required|integer',
-        'stock' => 'required|integer',
-        'description' => 'required|string|max:2000',
-    ]);
+    {
+        $validator = Validator::make($request->all(), [
+            'image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+            'nameproduct' => 'required|string',
+            'price' => 'required|integer',
+            'stock' => 'required|integer',
+            'description' => 'required|string|max:2000',
+        ]);
 
-    if ($validator->fails()) {
-        return redirect()->route('create-product')
-            ->withErrors($validator)
-            ->withInput();
+        if ($validator->fails()) {
+            return redirect()->route('create-product')
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        $file = $request->file('image');
+        $fileName = time() . '_' . $file->getClientOriginalName();
+        $file->move('storage/products', $fileName);
+
+        product::create([
+            'user_id' => Auth::user()->id,
+            'image' => '/storage/products/' . $fileName,
+            'nameproduct' => $request->nameproduct,
+            'price' => $request->price,
+            'stock' => $request->stock,
+            'description' => $request->description,
+        ]);
+
+        return redirect()->route('manage.product')->with('success', 'Product added successfully');
     }
-
-    $file = $request->file('image');
-    $fileName = time() . '_' . $file->getClientOriginalName();
-    $file->move('storage/products', $fileName);
-
-    product::create([
-        'user_id' => Auth::user()->id,
-        'image' => '/storage/products/' . $fileName,
-        'nameproduct' => $request->nameproduct, 
-        'price' => $request->price,
-        'stock' => $request->stock,
-        'description' => $request->description,
-    ]);
-
-    return redirect()->route('manage.product')->with('success', 'Product added successfully');
-}
-
-    
-
 }
