@@ -17,4 +17,8 @@ class Roles extends Model
         return $this->hasMany(User::class, 'roles_id');
     }
 
+    public function products() {
+        return $this->hasMany(product::class);
+    }
+
 }

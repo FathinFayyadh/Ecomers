@@ -75,23 +75,21 @@ class FormController extends Controller
         }
     }
     public function logout(Request $request)
-{
-    if (Auth::check()) {
-        $role = Auth::user()->roles_id;
+    {
+        if (Auth::check()) {
+            $role = Auth::user()->roles_id;
 
-        // Logout pengguna
-        Auth::logout();
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
+            // Logout pengguna
+            Auth::logout();
+            $request->session()->invalidate();
 
-        if ($role == 1) {
-            return redirect()->route('login-admin')->with('success', 'You have been logged out successfully.');
-        } elseif ($role == 2) {
-            return redirect()->route('home')->with('success', 'You have been logged out successfully.');
+            if ($role == 1) {
+                return redirect()->route('login-admin')->with('success', 'You have been logged out successfully.');
+            } elseif ($role == 2) {
+                return redirect()->route('home')->with('success', 'You have been logged out successfully.');
+            }
         }
+
+        return redirect('/')->with('error', 'No active session found.');
     }
-
-    return redirect('/')->with('error', 'No active session found.');
-}
-
 }

@@ -13,17 +13,15 @@ class HomeController extends Controller
     }
     public function home()  
     {
-        return view('home-content');
+        $products = product::all();
+        return view('home-content', compact('products'));
     }
     public function register()  
     {
         return view('FormUser.register');
     }
     
-    public function content(){
-        $products = product::all();
-        return view('content', compact('products'));
-    }
+    
     
     
 }

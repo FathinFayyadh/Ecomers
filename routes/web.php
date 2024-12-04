@@ -16,12 +16,11 @@ Route::middleware(['UserMiddleware:admin'])->group(function () {
     Route::get('/manageproduct',[AdminController::class,'manageproduct'])->name('manage.product');
 });
 
+
 Route::get('/home', [HomeController::class, 'home'])->name('home');
 Route::get('/login', [HomeController::class, 'Login'])->name('login.create');
 Route::get('/register', [HomeController::class, 'register'])->name('register.create');
 Route::get('/login-admin',[AdminController::class,'loginAdmin'])->name('login-admin');
-
-
 
 // Post
 Route::post('/login', [FormController::class, 'LoginStore'])->name('login.store');

@@ -17,6 +17,9 @@ class product extends Model
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
     
+    public function roles(){
+        return $this->belongsTo(Roles::class, 'roles_id', 'id');
+    }
     
 
 }
