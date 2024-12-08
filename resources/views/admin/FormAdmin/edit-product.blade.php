@@ -1,9 +1,17 @@
 @extends('Admin.dashboard')
-@section('title', 'Tambah Produk')
+@section('title', 'Edit Product')
 @section('content-admin')
 <div class="container mt-5">
-  <h1 class="mb-4">Create Product</h1>
-  <form action="{{ route('store.product') }}" method="POST" enctype="multipart/form-data">
+    @if (Session::get('error'))
+    <div class="row">
+        <div class="col-md-4 offset-4 mt-2 py-2 rounded bg-danger text-white fw-bold">
+            {{ Session::get('error') }}
+        </div>
+    </div>
+@endif
+  <h1 class="mb-4">Edit Product</h1>
+  <form action="{{ route('update.product', $product->id) }}" method="POST" enctype="multipart/form-data">
+    @method('PUT')
     @csrf
     <!-- Nama Produk -->
     <div class="mb-3">

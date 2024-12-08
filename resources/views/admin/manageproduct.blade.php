@@ -16,6 +16,7 @@
                         <th>Nama</td>
                         <th>Stock</th>
                         <th>Harga</th>
+                        <th>Deskripsion</th>
                         <th>Action </th>
                     </tr>
                 </thead>
@@ -31,10 +32,10 @@
                             <td>{{ $product->stock }}</td>
                             <td>{{ $product->price }}</td>
                             <td>{{ $product->description }}</td>
-                            {{-- <td> <a href="{{ route('edit.product', ['product' => $product->id, 'user' => $user->id]) }}"
+                            <td> <a href="{{ route('edit.product', $product->id) }}"
                                     class="btn btn-warning">Edit</a>
-                                <a href="{{ route('delete.product', ['product' => $product->id, 'user' => $user->id]) }}"
-                                    class="btn btn-danger">Delete</a> --}}
+                                <a href="{{ route('delete.product', $product->id) }}"
+                                    class="btn btn-danger">Delete</a>
                             </td>
                         </tr>
                     </tbody>

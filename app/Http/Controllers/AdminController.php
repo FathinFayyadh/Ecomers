@@ -26,6 +26,10 @@ class AdminController extends Controller
         return view('admin.FormAdmin.login-Admin');
     }
 
+    public function profile(){
+
+        return view('Admin.profil-admin');
+    }
 
     public function manageproduct()
     {
@@ -62,5 +66,50 @@ class AdminController extends Controller
         ]);
 
         return redirect()->route('manage.product')->with('success', 'Product added successfully');
+    }
+
+    public function editproduct($id)
+    {
+        $product = product::find($id);
+        return view('admin.FormAdmin.edit-product', compact('product'));
+    }
+    public function updateproduct(Request $request, $id)
+    {
+        $request->validate([
+            'nameproduct' => 'required|string|max:255',
+            'price' => 'required|numeric|min:0',
+            'stock' => 'required|integer|min:0',
+            'description' => 'nullable|string',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', 
+        ]);
+        $product = Product::findOrFail($id);
+        $product->nameproduct = $request->nameproduct;
+        $product->price = $request->price;
+        $product->stock = $request->stock;
+        $product->description = $request->description;
+    
+        if ($request->hasFile('image')) {
+            $file = $request->file('image');
+            $fileName = time() . '_' . $file->getClientOriginalName();
+            $filePath = 'storage/products/' . $fileName;
+
+            $file->move(public_path('storage/products'), $fileName);
+            if ($product->image && file_exists(public_path($product->image))) {
+                unlink(public_path($product->image));
+            }
+            $product->image = $filePath;
+        }
+        $product->save();
+        return redirect()->route('manage.product')->with('success', 'Product updated successfully');
+    }
+    
+    public function deleteproduct($id)
+    {
+        $product = product::find($id);
+        $product->delete();
+        $imagePath = public_path($product->image);
+        if (file_exists($imagePath))
+            unlink($imagePath);
+        return redirect()->route('manage.product');
     }
 }

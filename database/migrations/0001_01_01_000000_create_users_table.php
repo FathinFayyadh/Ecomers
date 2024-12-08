@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->text('photo',)->nullable();
             $table->foreignIdFor(Roles::class)->default(2);
             $table->enum('gender', ['Laki-laki', 'Perempuan'])->nullable();
             $table->rememberToken();

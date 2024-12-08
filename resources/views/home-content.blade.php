@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="" />
     <meta name="author" content="" />
-    <title>Shop Homepage - Start Bootstrap Template</title>
+    <title>Shop Shoes Online</title>
     <!-- Favicon-->
     <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
     <!-- Bootstrap icons-->
@@ -16,16 +16,8 @@
     <style>
         header img {
             object-fit: cover;
-            max-height: 450px;
+            max-height: 480px;
         }
-
-        .img-product {
-            object-fit: cover;
-            width: 100%;
-            border-top-left-radius: 0.75rem;
-            border-top-right-radius: 0.75rem;
-        }
-
         .overlay-text {
             background: rgba(0, 0, 0, 0.5);
             /* Semi-transparent background */
@@ -37,11 +29,9 @@
             /* Center the text */
             z-index: 10;
         }
-
         header .container {
             position: relative;
         }
-
         header img {
             object-fit: cover;
             width: 100%;
@@ -49,7 +39,6 @@
         }
 
         h1,
-
         .btn-lg {
             font-size: 1.25rem;
             padding: 10px 30px;
@@ -59,16 +48,18 @@
 
 <body>
     <!-- Navigation-->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
         <div class="container-fluid px-3 px-lg-5">
-            <a class="navbar-brand" href="#!">Start Bootstrap</a>
+            <a class="navbar-brand  fw-bold" href="#!">Shoes Online</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
                     <li class="nav-item"><a class="nav-link active" aria-current="page" href="#!">Home</a></li>
                     <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button"
-                            data-bs-toggle="dropdown" aria-expanded="false">Shop</a>
+                        <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Shop</a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <li><a class="dropdown-item" href="#!">All Products</a></li>
                             <li>
@@ -83,19 +74,12 @@
                 @auth
                     <ul class="navbar-nav ms-auto">
                         <li class="nav-item dropdown">
-                            <a class="nav-link d-flex align-items-center p-1" id="userDropdown" href="#"
-                                role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <a class="nav-link d-flex align-items-center p-1" id="userDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 <span class="text-gray-600 p-2">{{ Auth::user()->name }}</span>
-                                <img class="rounded-circle me-2" src="{{ asset('assets/img/undraw_profile.svg') }}"
-                                    alt="Profile Image" width="40" height="40">
+                                <img class="rounded-circle me-2" src="{{ asset('assets/img/undraw_profile.svg') }}" alt="Profile Image" width="40" height="40">
                             </a>
                             <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="userDropdown">
-                                <li><a class="dropdown-item" href="#"><i
-                                            class="fas fa-user fa-sm fa-fw me-2 text-gray-400"></i> Profile</a></li>
-                                <li><a class="dropdown-item" href="#"><i
-                                            class="fas fa-cogs fa-sm fa-fw me-2 text-gray-400"></i> Settings</a></li>
-                                <li><a class="dropdown-item" href="#"><i
-                                            class="fas fa-list fa-sm fa-fw me-2 text-gray-400"></i> Activity Log</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="fas fa-user fa-sm fa-fw me-2 text-gray-400"></i> Profile</a></li>
                                 <li>
                                     <hr class="dropdown-divider">
                                 </li>
@@ -119,20 +103,9 @@
             </div>
         </div>
     </nav>
-    <!-- Header-->
-    <!-- Gambar dengan overlay teks -->
-    {{-- <div class="col-12 text-center position-relative">
-        <img class="w-100 h-auto rounded shadow-lg" src="{{ asset('home-content/img/sepatu.jpg') }}"
-            alt="Sepatu">
-        <!-- Teks Overlay -->
-        <div class="overlay-text position-absolute top-50 start-50 translate-middle text-white text-center">
-            <h1 class="display-4 fw-bolder mb-3">Shop in Style</h1>
-            <p class="lead text-white-50">With this shop homepage template</p>
-            <a href="#shop-now" class="btn btn-light btn-lg">Shop Now</a>
-        </div>
-    </div> --}}
-    <header class="bg-dark py-4">
-        <div class="container py-1 px-4 px-lg-5 my-3 position-relative">
+    
+    <header class="bg-dark py-5 mt-4">
+        <div class="container  px-4 px-lg-5 my-2  position-relative">
             <div class="row gx-4 gx-lg-5 align-items-center">
                 <div id="headerCarousel" class="carousel slide" data-bs-ride="carousel">
                     <div class="carousel-inner">
@@ -257,96 +230,50 @@
         </div>
     </section>
     <section>
-        <div class="container px-4 py-5" id="custom-cards">
+        <div class="container py-5" id="custom-cards">
             <h2 class="pb-2 border-bottom">Custom cards</h2>
-
             <div class="row row-cols-1 row-cols-lg-3 align-items-stretch g-4 py-5">
                 <div class="col">
-                    <div class="card h-100 overflow-hidden text-bg-dark rounded-4 shadow-lg">
+                    <div class="card h-100 overflow-hidden text-bg-dark rounded-4 shadow-lg position-relative">
                         <!-- Gambar -->
-                        <img src="{{ asset('home-content/img/sepatu2.jpg') }}" alt="Sepatu"
-                            class="img-product w-100">
-
+                        <img src="{{ asset('home-content/img/sepatu2.jpg') }}" alt="Sepatu" class="img-product w-100">
+                
                         <!-- Konten -->
-                        <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1">
-                            <h3 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">Short title, long jacket</h3>
-                            <ul class="d-flex list-unstyled mt-auto">
-                                <li class="me-auto">
-                                    <img src="https://github.com/twbs.png" alt="Bootstrap" width="32"
-                                        height="32" class="rounded-circle border border-white">
-                                </li>
-                                <li class="d-flex align-items-center me-3">
-                                    <svg class="bi me-2" width="1em" height="1em">
-                                        <use xlink:href="#geo-fill" />
-                                    </svg>
-                                    <small>Earth</small>
-                                </li>
-                                <li class="d-flex align-items-center">
-                                    <svg class="bi me-2" width="1em" height="1em">
-                                        <use xlink:href="#calendar3" />
-                                    </svg>
-                                    <small>3d</small>
-                                </li>
-                            </ul>
+                        <div class="position-absolute top-0 start-0 w-100 h-100 d-flex flex-column justify-content-end p-4 text-white text-shadow-1">
+                            <h3 class="display-6 fw-bold">Short title, long jacket</h3>
+                            
                         </div>
                     </div>
                 </div>
-
-
+                
                 <div class="col">
-                    <div class="card card-cover h-100 overflow-hidden text-bg-dark rounded-4 shadow-lg"
-                        style="background-image: url('unsplash-photo-2.jpg');">
-                        <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1">
-                            <h3 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">Much longer title that wraps to multiple
-                                lines</h3>
-                            <ul class="d-flex list-unstyled mt-auto">
-                                <li class="me-auto">
-                                    <img src="https://github.com/twbs.png" alt="Bootstrap" width="32"
-                                        height="32" class="rounded-circle border border-white">
-                                </li>
-                                <li class="d-flex align-items-center me-3">
-                                    <svg class="bi me-2" width="1em" height="1em">
-                                        <use xlink:href="#geo-fill" />
-                                    </svg>
-                                    <small>Pakistan</small>
-                                </li>
-                                <li class="d-flex align-items-center">
-                                    <svg class="bi me-2" width="1em" height="1em">
-                                        <use xlink:href="#calendar3" />
-                                    </svg>
-                                    <small>4d</small>
-                                </li>
-                            </ul>
+                    <div class="card h-100 overflow-hidden text-bg-dark rounded-4 shadow-lg position-relative">
+                        <!-- Gambar -->
+                        <img src="{{ asset('home-content/img/sepatu2.jpg') }}" alt="Sepatu" class="img-product w-100">
+                
+                        <!-- Konten -->
+                        <div class="position-absolute top-0 start-0 w-100 h-100 d-flex flex-column justify-content-end p-4 text-white text-shadow-1">
+                            <h3 class="display-6 fw-bold">Short title, long jacket</h3>
+                           
                         </div>
                     </div>
                 </div>
-
                 <div class="col">
-                    <div class="card card-cover h-100 overflow-hidden text-bg-dark rounded-4 shadow-lg"
-                        style="background-image: url('unsplash-photo-3.jpg');">
-                        <div class="d-flex flex-column h-100 p-5 pb-3 text-shadow-1">
-                            <h3 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">Another longer title belongs here</h3>
-                            <ul class="d-flex list-unstyled mt-auto">
-                                <li class="me-auto">
-                                    <img src="https://github.com/twbs.png" alt="Bootstrap" width="32"
-                                        height="32" class="rounded-circle border border-white">
-                                </li>
-                                <li class="d-flex align-items-center me-3">
-                                    <svg class="bi me-2" width="1em" height="1em">
-                                        <use xlink:href="#geo-fill" />
-                                    </svg>
-                                    <small>California</small>
-                                </li>
-                                <li class="d-flex align-items-center">
-                                    <svg class="bi me-2" width="1em" height="1em">
-                                        <use xlink:href="#calendar3" />
-                                    </svg>
-                                    <small>5d</small>
-                                </li>
-                            </ul>
+                    <div class="card h-100 overflow-hidden text-bg-dark rounded-4 shadow-lg position-relative">
+                        <!-- Gambar -->
+                        <img src="{{ asset('home-content/img/sepatu2.jpg') }}" alt="Sepatu" class="img-product w-100">
+                
+                        <!-- Konten -->
+                        <div class="position-absolute top-0 start-0 w-100 h-100 d-flex flex-column justify-content-end p-4 text-white text-shadow-1">
+                            <h3 class="display-6 fw-bold">Short title, long jacket</h3>
+                           
                         </div>
                     </div>
                 </div>
+                                
+
+
+                
             </div>
         </div>
     </section>

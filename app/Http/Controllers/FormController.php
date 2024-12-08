@@ -78,8 +78,6 @@ class FormController extends Controller
     {
         if (Auth::check()) {
             $role = Auth::user()->roles_id;
-
-            // Logout pengguna
             Auth::logout();
             $request->session()->invalidate();
 
@@ -91,5 +89,44 @@ class FormController extends Controller
         }
 
         return redirect('/')->with('error', 'No active session found.');
+    }
+
+    public function profile()
+    {
+        $user = Auth::user();
+        return view('profile', compact('user'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email,' . $id,
+            'password' => 'nullable|min:8|confirmed',
+            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        $user = User::findOrFail($id);
+        $user->name = $request->name;
+        $user->email = $request->email;
+
+        if ($request->password) {
+            $user->password = bcrypt($request->password);
+        }
+
+        if ($request->hasFile('photo')) {
+            // Hapus foto lama jika ada
+            if ($user->photo && file_exists(public_path('storage/photos/' . $user->photo))) {
+                unlink(public_path('storage/photos/' . $user->photo));
+            }
+
+            // Upload foto baru
+            $file = $request->file('photo');
+            $fileName = time() . '_' . $file->getClientOriginalName();
+            $file->move(public_path('storage/photos'), $fileName);
+            $user->photo = $fileName;
+        }
+        $user->save();
+        return redirect()->back()->with('status', 'Profile updated successfully!');
     }
 }
