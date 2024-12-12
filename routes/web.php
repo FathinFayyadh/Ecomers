@@ -24,7 +24,7 @@ Route::get('/home', [HomeController::class, 'home'])->name('home');
 Route::get('/login', [HomeController::class, 'Login'])->name('login.create');
 Route::get('/register', [HomeController::class, 'register'])->name('register.create');
 Route::get('/login-admin',[AdminController::class,'loginAdmin'])->name('login-admin');
-Route::get('/profile', [FormController::class, 'show'])->name('profile.show');
+Route::get('/profile-user', [FormController::class, 'show'])->name('profile-user');
 
 // Post
 Route::post('/profile', [FormController::class, 'update'])->name('profile.update');

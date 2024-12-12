@@ -91,10 +91,9 @@ class FormController extends Controller
         return redirect('/')->with('error', 'No active session found.');
     }
 
-    public function profile()
+    public function show()
     {
-        $user = Auth::user();
-        return view('profile', compact('user'));
+        return view('profil-user');
     }
 
     public function update(Request $request, $id)
