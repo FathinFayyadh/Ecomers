@@ -22,8 +22,8 @@ class DatabaseSeeder extends Seeder
             'name' => 'admin',
         ]);
         Roles::Create([
-        'id' => 2,
-        'name' => 'user',
+            'id' => 2,
+            'name' => 'user',
         ]);
 
         User::Create([

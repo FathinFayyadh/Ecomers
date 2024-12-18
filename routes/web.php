@@ -19,12 +19,15 @@ Route::middleware(['UserMiddleware:admin'])->group(function () {
     Route::get('Profile', [AdminController::class, 'profile'])->name('profile');
 });
 
+Route::middleware(['UserMiddleware:user'])->group(function () { 
+    Route::get('/profile-user', [FormController::class, 'show'])->name('profile-user');
+    Route::get('/update-profile', [FormController::class, 'updateProfile'])->name('update.profile');
+});
 
 Route::get('/home', [HomeController::class, 'home'])->name('home');
 Route::get('/login', [HomeController::class, 'Login'])->name('login.create');
 Route::get('/register', [HomeController::class, 'register'])->name('register.create');
 Route::get('/login-admin',[AdminController::class,'loginAdmin'])->name('login-admin');
-Route::get('/profile-user', [FormController::class, 'show'])->name('profile-user');
 
 // Post
 Route::post('/profile', [FormController::class, 'update'])->name('profile.update');

@@ -96,6 +96,11 @@ class FormController extends Controller
         return view('profil-user');
     }
 
+
+    public function updateProfile()
+    {
+      return view('FormUser.update-profile');
+    }
     public function update(Request $request, $id)
     {
         $request->validate([
