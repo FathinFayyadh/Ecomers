@@ -23,14 +23,10 @@
                             <div class="row justify-content-center mb-3">
                                 <!-- Profile Image Section -->
                                 <div class="col-md-4 text-center">
-                                    @if ($user->photo && Storage::exists('public/photos/' . $user->photo))
-                                        <img id="profile-image" src="{{ asset('storage/photos/' . $user->photo) }}"
-                                            alt="Profile Image" class="rounded-circle mb-3" width="150" height="150">
-                                    @else
-                                        <img id="profile-image" src="{{ asset('assets/img/undraw_profile.svg') }}"
-                                            alt="Default Profile Image" class="rounded-circle mb-3" width="150"
-                                            height="150">
-                                    @endif
+
+                                    <img id="profile-image" src="{{ asset('assets/img/undraw_profile.svg') }}"
+                                        alt="Default Profile Image" class="rounded-circle mb-3" width="150"
+                                        height="150">
 
                                     <div class="mb-3">
                                         <input type="file" id="file-input" name="photo" class="form-control w-auto"

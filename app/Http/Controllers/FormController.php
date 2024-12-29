@@ -104,32 +104,28 @@ class FormController extends Controller
         // Validasi input
         $request->validate([
             'name' => 'required|string|max:255',
-            'gender' => 'required|string|in:male,female', // Perbaiki dari "gander" ke "gender", dan tambahkan validasi nilai
+            'gender' => 'required|string|in:Laki-laki,Perempuan',
             'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
-
         // Cari user berdasarkan ID
         $user = User::findOrFail($id);
 
         // Update name dan gender
         $user->name = $request->name;
         $user->gender = $request->gender;
-
-        // Update foto jika ada
+       
         if ($request->hasFile('photo')) {
-            // Hapus foto lama jika ada
-            if ($user->photo && Storage::exists('public/photos/' . $user->photo)) {
-                Storage::delete('public/photos/' . $user->photo);
+            $file = $request->file('photo');
+            $fileName = time() . '_' . $file->getClientOriginalName();
+            $filePath = 'storage/users/' . $fileName;
+
+            $file->move(public_path('storage/users'), $fileName);
+            if ($user->photo && file_exists(public_path($user->photo))) {
+                unlink(public_path($user->photo));
             }
-            $fileName = time() . '_' . $request->file('photo')->getClientOriginalName();
-            $request->file('photo')->storeAs('public/photos', $fileName);
-            $user->photo = $fileName;
+            $user->photo = $filePath;
         }
-
-        // Simpan perubahan
         $user->save();
-
-        // Redirect ke halaman profil user dengan pesan sukses
         return redirect()->route('profile-user')->with('status', 'Profile updated successfully!');
     }
 }

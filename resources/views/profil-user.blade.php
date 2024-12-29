@@ -10,10 +10,10 @@
                         <div class="row justify-content-center mb-3">
                             <!-- Profile Image Section -->
                             @auth
-                                <div class="col-md-4 text-center align-content-center">
-                                    <img id="profile-image" src="{{ Storage::url(Auth::user()->image) }}" alt="Profile Image"
-                                        class="rounded-circle mb-3" width="150" height="150">
-                                </div>
+                            <div class="col-md-4 text-center align-content-center">
+                                <img id="profile-image" src="{{ $user->photo }}" alt="Profile Image"
+                                    class="rounded-circle mb-3" width="150" height="150">
+                            </div>
                             @else
                                 <div class="col-md-4 text-center align-content-center">
                                     <img id="profile-image" src="{{ asset('assets/img/undraw_profile.svg') }}"
