@@ -5,16 +5,13 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class FormController extends Controller
 {
 
-    public function CreateProduct(Request $request)
-    {
 
-        return view('admin.createProduct');
-    }
 
     public function LoginStore(Request $request)
     {
@@ -93,44 +90,46 @@ class FormController extends Controller
 
     public function show()
     {
-        return view('profil-user');
+        $user = Auth::user();
+        return view('profil-user', compact('user'));
     }
 
-
-    public function updateProfile()
+    public function updateProfile($id)
     {
-      return view('FormUser.update-profile');
+        $user = User::findOrFail($id);
+        return view('FormUser.update-profile', compact('user'));
     }
     public function update(Request $request, $id)
     {
+        // Validasi input
         $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email,' . $id,
-            'password' => 'nullable|min:8|confirmed',
+            'gender' => 'required|string|in:male,female', // Perbaiki dari "gander" ke "gender", dan tambahkan validasi nilai
             'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
+        // Cari user berdasarkan ID
         $user = User::findOrFail($id);
+
+        // Update name dan gender
         $user->name = $request->name;
-        $user->email = $request->email;
+        $user->gender = $request->gender;
 
-        if ($request->password) {
-            $user->password = bcrypt($request->password);
-        }
-
+        // Update foto jika ada
         if ($request->hasFile('photo')) {
             // Hapus foto lama jika ada
-            if ($user->photo && file_exists(public_path('storage/photos/' . $user->photo))) {
-                unlink(public_path('storage/photos/' . $user->photo));
+            if ($user->photo && Storage::exists('public/photos/' . $user->photo)) {
+                Storage::delete('public/photos/' . $user->photo);
             }
-
-            // Upload foto baru
-            $file = $request->file('photo');
-            $fileName = time() . '_' . $file->getClientOriginalName();
-            $file->move(public_path('storage/photos'), $fileName);
+            $fileName = time() . '_' . $request->file('photo')->getClientOriginalName();
+            $request->file('photo')->storeAs('public/photos', $fileName);
             $user->photo = $fileName;
         }
+
+        // Simpan perubahan
         $user->save();
-        return redirect()->back()->with('status', 'Profile updated successfully!');
+
+        // Redirect ke halaman profil user dengan pesan sukses
+        return redirect()->route('profile-user')->with('status', 'Profile updated successfully!');
     }
 }

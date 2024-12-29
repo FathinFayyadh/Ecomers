@@ -21,16 +21,18 @@ Route::middleware(['UserMiddleware:admin'])->group(function () {
 
 Route::middleware(['UserMiddleware:user'])->group(function () { 
     Route::get('/profile-user', [FormController::class, 'show'])->name('profile-user');
-    Route::get('/update-profile', [FormController::class, 'updateProfile'])->name('update.profile');
+    Route::get('/users/{id}/edit', [FormController::class, 'updateProfile'])->name('users.edit');
+    Route::put('/users/{id}', [FormController::class, 'update'])->name('users.update');
 });
 
-Route::get('/home', [HomeController::class, 'home'])->name('home');
+
+
+Route::get('/', [HomeController::class, 'home'])->name('home');
 Route::get('/login', [HomeController::class, 'Login'])->name('login.create');
 Route::get('/register', [HomeController::class, 'register'])->name('register.create');
 Route::get('/login-admin',[AdminController::class,'loginAdmin'])->name('login-admin');
 
 // Post
-Route::post('/profile', [FormController::class, 'update'])->name('profile.update');
 Route::post('/login', [FormController::class, 'LoginStore'])->name('login.store');
 Route::post('/register', [FormController::class, 'RegisterStore'])->name('register.store');
 Route::post('/logout', [FormController::class, 'logout'])->name('logout');

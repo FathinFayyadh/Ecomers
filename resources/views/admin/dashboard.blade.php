@@ -128,7 +128,6 @@
                                 </a>
                               
                                 <div class="dropdown-divider"></div>
-                            
                                     <form action="{{ route('logout') }}" method="POST">
                                         @csrf
                                         <button type="submit" class="dropdown-item">
