@@ -10,10 +10,10 @@
                         <div class="row justify-content-center mb-3">
                             <!-- Profile Image Section -->
                             @auth
-                            <div class="col-md-4 text-center align-content-center">
-                                <img id="profile-image" src="{{ $user->photo }}" alt="Profile Image"
-                                    class="rounded-circle mb-3" width="150" height="150">
-                            </div>
+                                <div class="col-md-4 text-center align-content-center">
+                                    <img id="profile-image" src="{{ $user->photo }}" alt="Profile Image"
+                                        class="rounded-circle mb-3" width="150" height="150">
+                                </div>
                             @else
                                 <div class="col-md-4 text-center align-content-center">
                                     <img id="profile-image" src="{{ asset('assets/img/undraw_profile.svg') }}"
@@ -49,35 +49,53 @@
                                         </button>
 
                                         <!-- Modal for changing password -->
-                                        <div class="modal fade " id="changePasswordModal" tabindex="-1"
+                                        <div class="modal fade" id="changePasswordModal" tabindex="-1"
                                             aria-labelledby="changePasswordModalLabel" aria-hidden="true">
                                             <div class="modal-dialog">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
                                                         <h5 class="modal-title" id="changePasswordModalLabel">Change
                                                             Password</h5>
-                                                        <button type="button" class="btn-close " data-bs-dismiss="modal"
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                             aria-label="Close"></button>
                                                     </div>
                                                     <div class="modal-body">
-                                                        <form id="changePasswordForm">
+                                                        <form method="post" action="{{ route('update.password') }}"
+                                                            id="changePasswordForm">
+                                                            @csrf <!-- Token CSRF sangat penting -->
+
+                                                            <!-- Old Password -->
                                                             <div class="mb-3">
                                                                 <label for="oldPassword" class="form-label">Old
                                                                     Password</label>
                                                                 <input type="password" class="form-control" id="oldPassword"
-                                                                    name="oldPassword" required>
+                                                                    name="current_password" required>
+                                                                @error('current_password')
+                                                                    <div class="text-danger">{{ $message }}</div>
+                                                                @enderror
                                                             </div>
+
+                                                            <!-- New Password -->
                                                             <div class="mb-3">
                                                                 <label for="newPassword" class="form-label">New
                                                                     Password</label>
                                                                 <input type="password" class="form-control" id="newPassword"
-                                                                    name="newPassword" required>
+                                                                    name="new_password" required>
+                                                                @error('new_password')
+                                                                    <div class="text-danger">{{ $message }}</div>
+                                                                @enderror
                                                             </div>
+
+                                                            <!-- Confirm New Password -->
                                                             <div class="mb-3">
                                                                 <label for="confirmPassword" class="form-label">Confirm New
                                                                     Password</label>
                                                                 <input type="password" class="form-control"
-                                                                    id="confirmPassword" name="confirmPassword" required>
+                                                                    id="confirmPassword" name="new_password_confirmation"
+                                                                    required>
+                                                                @error('new_password_confirmation')
+                                                                    <div class="text-danger">{{ $message }}</div>
+                                                                @enderror
                                                             </div>
                                                         </form>
                                                     </div>
@@ -85,23 +103,42 @@
                                                         <button type="button" class="btn btn-secondary"
                                                             data-bs-dismiss="modal">Cancel</button>
                                                         <button type="submit" class="btn btn-primary"
-                                                            form="changePasswordForm">Save Changes</button>
+                                                            id="changePasswordForm">Save Changes</button>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
+
+                                        <!-- Success/Error Feedback -->
+                                        @if (session('success'))
+                                            <div class="alert alert-success mt-3">
+                                                {{ session('success') }}
+                                            </div>
+                                        @endif
+                                        @if (session('error'))
+                                            <div class="alert alert-danger mt-3">
+                                                {{ session('error') }}
+                                            </div>
+                                        @endif
+
                                         <!-- Update Profile Button -->
                                         <div class="mr-3">
                                             <a href="{{ route('users.edit', Auth::user()->id) }}"
                                                 class="btn btn-primary">Update Profile</a>
+                                        </div>
                                     </div>
+                                </form>
                             </div>
-                            </form>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    </div>
+
+    <script>
+        document.getElementById('changePasswordForm').addEventListener('submit', function(e) {
+            console.log('Form submitted!');
+        });
+    </script>
 @endsection

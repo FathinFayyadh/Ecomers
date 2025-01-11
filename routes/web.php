@@ -23,6 +23,7 @@ Route::middleware(['UserMiddleware:user'])->group(function () {
     Route::get('/profile-user', [FormController::class, 'show'])->name('profile-user');
     Route::get('/users/{id}/edit', [FormController::class, 'updateProfile'])->name('users.edit');
     Route::put('/users/{id}', [FormController::class, 'update'])->name('users.update');
+    Route::post('/update-password', [FormController::class, 'updatePassword'])->name('update.password');
 });
 
 

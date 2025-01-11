@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
@@ -15,29 +17,34 @@ class FormController extends Controller
 
     public function LoginStore(Request $request)
     {
-        $validator = Validator::make($request->all(), [
+        // Validasi input
+        $request->validate([
             'email' => 'required|email',
             'password' => 'required',
         ]);
 
-        if ($validator->fails()) {
-            return back()->withErrors($validator)->withInput();
-        }
+        // Proses login
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
+            // Regenerasi sesi
             $request->session()->regenerate();
 
             $user = Auth::user();
+
+            // Redirect berdasarkan roles_id
             if ($user->roles_id == 1) {
                 return redirect()->route('Dashboard')->with('success', 'Welcome Admin!');
             } elseif ($user->roles_id == 2) {
                 return redirect()->route('home')->with('success', 'Welcome User!');
             }
         }
+
+        // Gagal login
         return back()->withErrors([
-            'email' => 'Your credentials are wrong',
-            'password' => 'Your credentials are wrong',
+            'email' => 'The provided email is not registered.',
+            'password' => 'The provided password is incorrect.',
         ])->withInput();
     }
+
     function RegisterStore(Request $request)
     {
 
@@ -107,13 +114,13 @@ class FormController extends Controller
             'gender' => 'required|string|in:Laki-laki,Perempuan',
             'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
-        // Cari user berdasarkan ID
+
         $user = User::findOrFail($id);
 
         // Update name dan gender
         $user->name = $request->name;
         $user->gender = $request->gender;
-       
+
         if ($request->hasFile('photo')) {
             $file = $request->file('photo');
             $fileName = time() . '_' . $file->getClientOriginalName();
@@ -127,5 +134,41 @@ class FormController extends Controller
         }
         $user->save();
         return redirect()->route('profile-user')->with('status', 'Profile updated successfully!');
+    }
+    public function updatePassword(Request $request)
+    {
+        // Validasi input
+        $request->validate([
+            'current_password' => 'required',  // Pastikan password lama dimasukkan
+            'new_password' => 'required|min:8|confirmed',  // Validasi password baru
+        ]);
+
+        // Ambil pengguna yang sedang login
+        $user = Auth::user();
+
+        // Periksa apakah password lama cocok
+        if (!Hash::check($request->current_password, $user->password)) {
+            return back()->withErrors(['current_password' => 'Password lama tidak sesuai.']);
+        }
+
+        // Periksa apakah password baru sama dengan password lama
+        if (Hash::check($request->new_password, $user->password)) {
+            return back()->withErrors(['new_password' => 'Password baru tidak boleh sama dengan password lama.']);
+        }
+
+        // Update password baru
+        $user->password = Hash::make($request->new_password);
+
+        // Simpan perubahan
+        if ($user->save()) {
+            // Logout setelah password diperbarui
+            Auth::logout();
+
+            // Redirect ke halaman login
+            return redirect()->route('login')->with('success', 'Password berhasil diperbarui. Silakan login kembali dengan password baru.');
+        }
+
+        // Jika terjadi kesalahan dalam menyimpan
+        return back()->withErrors(['password' => 'Terjadi kesalahan saat memperbarui password.']);
     }
 }
